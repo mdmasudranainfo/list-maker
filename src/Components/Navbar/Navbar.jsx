@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Tools/ContentApi/UserContext";
 import logo from "../Assets/image/logo.png";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const logOutHandler = () => {
+    logOut()
+      .then((data) => {
+        toast.success("Logged out successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuItem = (
     <>
@@ -18,6 +32,23 @@ const Navbar = () => {
       <li>
         <Link to="/complitetask">Complite Task</Link>
       </li>
+      {user?.uid && (
+        <>
+          <li>
+            <Link className="bg-violet-700 text-white p-3 rounded-lg">
+              {user.displayName}
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={logOutHandler}
+              className="bg-violet-700 text-white p-3 rounded-lg"
+            >
+              LogOut
+            </Link>
+          </li>
+        </>
+      )}
     </>
   );
   return (
@@ -37,16 +68,6 @@ const Navbar = () => {
               <h2 className="text-xl font-bold">List Maker</h2>
             </a>
             <ul className="flex items-center hidden space-x-8 lg:flex">
-              {/* <li>
-              <a
-                href="/"
-                aria-label="Our product"
-                title="Our product"
-                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >
-                Product
-              </a>
-            </li> */}
               {menuItem}
             </ul>
             <div className="lg:hidden">

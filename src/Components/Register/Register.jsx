@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Tools/ContentApi/UserContext";
 
 const Register = () => {
+  const { register, update } = useContext(AuthContext);
+
+  const registerHandle = (event) => {
+    event.preventDefault();
+    const from = event.target;
+    const name = from.useName.value;
+    const email = from.email.value;
+    const password = from.password.value;
+    register(email, password)
+      .then((data) => {
+        // update
+        update(name)
+          .then((Data) => {
+            const user = data.user;
+            if (user.uid) {
+              toast.success("Successfully Register ❤!");
+            }
+          })
+          .catch((err) => {
+            toast.error(err);
+            console.log(err);
+            return;
+          });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div className="container mx-auto">
       <div className="overflow-hidden ">
@@ -47,7 +78,7 @@ const Register = () => {
                   <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
                     Register
                   </h3>
-                  <form>
+                  <form onSubmit={registerHandle}>
                     <div className="mb-1 sm:mb-2">
                       <label
                         htmlFor="name"
@@ -61,7 +92,7 @@ const Register = () => {
                         type="text"
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
                         id="name"
-                        name="name"
+                        name="useName"
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">

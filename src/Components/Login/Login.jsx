@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
+import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Tools/ContentApi/UserContext";
 
 const Login = () => {
+  const { login } = useContext(AuthContext);
+  const LoginHandle = (event) => {
+    event.preventDefault();
+    const from = event.target;
+    // const name = from.name.value;
+    const email = from.email.value;
+    const password = from.password.value;
+    login(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        if (user.uid) {
+          toast.success("Login success ❤");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
   return (
     <div className="container mx-auto">
       <div className="overflow-hidden ">
@@ -47,10 +68,10 @@ const Login = () => {
                   <h3 className="mb-4 text-xl font-semibold sm:text-center sm:mb-6 sm:text-2xl">
                     Login
                   </h3>
-                  <form>
+                  <form onSubmit={LoginHandle}>
                     <div className="mb-1 sm:mb-2">
                       <label
-                        htmlFor="name"
+                        htmlFor="email"
                         className="inline-block mb-1 font-medium"
                       >
                         Email
@@ -61,12 +82,12 @@ const Login = () => {
                         required
                         type="email"
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                        id="name"
+                        id="email"
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
                       <label
-                        htmlFor="email"
+                        htmlFor="password"
                         className="inline-block mb-1 font-medium"
                       >
                         Password
@@ -77,7 +98,7 @@ const Login = () => {
                         required
                         type="password"
                         className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
-                        id="email"
+                        id="password"
                       />
                     </div>
                     <div className="mt-4 mb-2 sm:mb-4">
