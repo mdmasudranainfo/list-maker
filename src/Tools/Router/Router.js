@@ -1,7 +1,9 @@
+import AddTask from "../../Components/AddTask/AddTask";
 import CompliteTask from "../../Components/CompliteTask/CompliteTask";
 import Login from "../../Components/Login/Login";
 import MyTask from "../../Components/MyTask/MyTask";
 import Register from "../../Components/Register/Register";
+import Demo from "../Demo/Demo";
 
 const { createBrowserRouter } = require("react-router-dom");
 const { default: Main } = require("../../Components/Layout/Main");
@@ -26,6 +28,14 @@ export const routers = createBrowserRouter([
       {
         path: "/complitetask",
         element: <CompliteTask></CompliteTask>,
+      },
+      {
+        path: "/addtask",
+        element: <AddTask></AddTask>,
+      },
+      {
+        path: "/demo",
+        element: <Demo></Demo>,
       },
     ],
   },
