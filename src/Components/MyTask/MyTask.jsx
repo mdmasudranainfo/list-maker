@@ -12,19 +12,10 @@ import { GiCheckMark } from "react-icons/gi";
 
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Tools/ContentApi/UserContext";
+import { toast } from "react-hot-toast";
 
 const MyTask = () => {
   const { user } = useContext(AuthContext);
-  // drop starting
-  const [opns, setOpns] = useState("hidden");
-  const OptionHandle = () => {
-    if (opns === "hidden") {
-      setOpns("");
-    } else {
-      setOpns("hidden");
-    }
-  };
-  // drop starting
 
   const {
     data: Tasks = [],
@@ -46,10 +37,38 @@ const MyTask = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Task deleted successfully");
+          refetch();
+        }
         console.log(data);
       })
       .catch((err) => console.log(err));
   };
+
+  // complite task with
+  const compliteHandler = (id) => {
+    alert(id);
+
+    fetch(`http://localhost:5000/complite/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged) {
+          toast.success("Task Complete");
+          refetch();
+        }
+        console.log(data);
+      })
+      .catch((err) => console.error(err));
+  };
+
+  //
+  console.log(Tasks);
   return (
     <div className=" container mx-auto mt-5">
       <h1 className="text-2xl font-bold my-3">Your Task</h1>
@@ -64,12 +83,14 @@ const MyTask = () => {
 
               <div className="flex justify-center items-center">
                 <Link
+                  onClick={() => compliteHandler(task?._id)}
                   title="Press to Complete Task"
                   className="btn  hover:shadow-xl  p-2 rounded mr-2"
                 >
                   <GiCheckMark />
                 </Link>
                 <Link
+                  to={`/update/${task._id}`}
                   title="Press to Update Task"
                   className="btn  hover:shadow-xl  p-2 rounded mr-2"
                 >
@@ -86,10 +107,14 @@ const MyTask = () => {
               </div>
             </div>
             <hr />
-            <div className="">
-              <h3 className=" font-medium">{task?.taskDis}</h3>
+            <div className="flex justify-between">
+              <h3 className="text-xl font-medium">{task?.taskDis}</h3>
 
-              <div className="flex gap-3 mt-2 justify-center">
+              <div className="flex gap-3 mt-2 justify-end flex-col">
+                <div className=" gap-3">
+                  <p> Time: {task?.time}</p>
+                  <p>Date: {task?.date}</p>
+                </div>
                 <img src={task?.photo} className="w-[80px] rounded-lg" alt="" />
               </div>
             </div>

@@ -6,6 +6,13 @@ const AddTask = () => {
   //
   const { user } = useContext(AuthContext);
 
+  // time and date
+  const time = new Date().toLocaleTimeString();
+
+  const date = new Date().toLocaleDateString();
+
+  // console.log(date);
+
   //
   const addHandler = (event) => {
     event.preventDefault();
@@ -18,6 +25,10 @@ const AddTask = () => {
     let formData = new FormData();
     formData.append("image", image);
     console.log(formData);
+
+    //
+
+    //
 
     // send imagebb
     const url =
@@ -32,6 +43,7 @@ const AddTask = () => {
         const photo = data.data.display_url;
         if (photo) {
           sendDatabase(title, taskDis, photo);
+          from.reset();
           return;
         }
 
@@ -40,6 +52,7 @@ const AddTask = () => {
       })
       .catch((err) => {
         sendDatabase(title, taskDis);
+        from.reset();
       });
 
     //
@@ -51,6 +64,8 @@ const AddTask = () => {
       title,
       taskDis,
       photo,
+      time,
+      date,
       email: user.email,
       complite: false,
     };
