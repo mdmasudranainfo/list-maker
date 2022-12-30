@@ -13,9 +13,10 @@ import { GiCheckMark } from "react-icons/gi";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Tools/ContentApi/UserContext";
 import { toast } from "react-hot-toast";
+import Loader from "../../Tools/Loader/Loader";
 
 const MyTask = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loader } = useContext(AuthContext);
 
   const {
     data: Tasks = [],
@@ -24,15 +25,15 @@ const MyTask = () => {
   } = useQuery({
     queryKey: ["task"],
     queryFn: () =>
-      fetch(`http://localhost:5000/task/?email=${user.email}`).then((res) =>
-        res.json()
-      ),
+      fetch(
+        `https://list-maker-server.vercel.app/task/?email=${user.email}`
+      ).then((res) => res.json()),
   });
   //    delete tasks
   const deleteHander = (id) => {
     alert(id);
 
-    fetch(`http://localhost:5000/task/${id}`, {
+    fetch(`https://list-maker-server.vercel.app/task/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -50,7 +51,7 @@ const MyTask = () => {
   const compliteHandler = (id) => {
     alert(id);
 
-    fetch(`http://localhost:5000/complite/${id}`, {
+    fetch(`https://list-maker-server.vercel.app/complite/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -68,11 +69,18 @@ const MyTask = () => {
   };
 
   //
-  console.log(Tasks);
+
+  if (!Tasks) {
+    return <Loader></Loader>;
+  }
   return (
     <div className=" container mx-auto mt-5">
       <h1 className="text-2xl font-bold my-3">Your Task</h1>
-
+      {Tasks.length === 0 && (
+        <div className="flex justify-center text-red-700 text-xl">
+          <p>Have Not Task</p>
+        </div>
+      )}
       {Tasks?.map((task) => (
         <div key={task._id} className="">
           <div className="shadow-xl bg-violet-700 text-white shadow-green-200 hover:border-0 hover:duration-500 duration-500 hover:shadow-2xl bg-base-100 rounded p-4 my-10">

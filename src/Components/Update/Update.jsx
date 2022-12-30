@@ -16,7 +16,7 @@ const Update = () => {
       taskDis,
     };
 
-    fetch(`http://localhost:5000/update/${Task._id}`, {
+    fetch(`https://list-maker-server.vercel.app/update/${Task._id}`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",

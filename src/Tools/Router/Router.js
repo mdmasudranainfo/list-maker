@@ -2,6 +2,7 @@ import AddTask from "../../Components/AddTask/AddTask";
 import CompliteTask from "../../Components/CompliteTask/CompliteTask";
 import Login from "../../Components/Login/Login";
 import MyTask from "../../Components/MyTask/MyTask";
+import PrivateRoute from "../../Components/PrivateRoute/PrivateRoute";
 import Register from "../../Components/Register/Register";
 import Update from "../../Components/Update/Update";
 import Demo from "../Demo/Demo";
@@ -16,7 +17,11 @@ export const routers = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Login></Login>,
+        element: (
+          <PrivateRoute>
+            <MyTask></MyTask>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/register",
@@ -24,15 +29,27 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/mytask",
-        element: <MyTask></MyTask>,
+        element: (
+          <PrivateRoute>
+            <MyTask></MyTask>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/complitetask",
-        element: <CompliteTask></CompliteTask>,
+        element: (
+          <PrivateRoute>
+            <CompliteTask></CompliteTask>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/addtask",
-        element: <AddTask></AddTask>,
+        element: (
+          <PrivateRoute>
+            <AddTask></AddTask>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/demo",
@@ -40,9 +57,17 @@ export const routers = createBrowserRouter([
       },
       {
         path: "/update/:ids",
-        element: <Update></Update>,
+        element: (
+          <PrivateRoute>
+            <Update></Update>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/task/${params.ids}`),
+          fetch(`https://list-maker-server.vercel.app/task/${params.ids}`),
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
       },
     ],
   },

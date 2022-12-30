@@ -23,26 +23,23 @@ const Navbar = () => {
       <li>
         <Link to="/">Home</Link>
       </li>
-      <li>
-        <Link to="/addtask">Add Task</Link>
-      </li>
-      <li>
-        <Link to="/mytask">My Task</Link>
-      </li>
-      <li>
-        <Link to="/complitetask">Complite Task</Link>
-      </li>
+
       {user?.uid && (
         <>
           <li>
-            <Link className="bg-violet-700 text-white p-3 rounded-lg">
-              {user.displayName}
-            </Link>
+            <Link to="/addtask">Add Task</Link>
           </li>
           <li>
+            <Link to="/mytask">My Task</Link>
+          </li>
+          <li>
+            <Link to="/complitetask">Complite Task</Link>
+          </li>
+          <li></li>
+          <li className="ml-0">
             <Link
               onClick={logOutHandler}
-              className="bg-violet-700 text-white p-3 rounded-lg"
+              className="bg-violet-700 mr-3 ml-0 text-white p-3 rounded-lg"
             >
               LogOut
             </Link>
@@ -56,8 +53,8 @@ const Navbar = () => {
       <div className="mx-auto container ">
         <div className="px-0 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl  ">
           <div className="relative flex items-center justify-between">
-            <a
-              href="/"
+            <Link
+              to="/"
               aria-label="Company"
               title="Company"
               className="inline-flex items-center"
@@ -65,9 +62,11 @@ const Navbar = () => {
               <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
                 <img className="w-[50px]" src={logo} alt="" />
               </span>
-              <h2 className="text-xl font-bold">List Maker</h2>
-            </a>
-            <ul className="flex items-center hidden space-x-8 lg:flex">
+              <Link to="/" className="text-lg  p-3 rounded-lg">
+                {user?.uid ? <> {user?.displayName}</> : <>List Maker</>}
+              </Link>
+            </Link>
+            <ul className=" items-center hidden space-x-8 lg:flex">
               {menuItem}
             </ul>
             <div className="lg:hidden">
@@ -97,8 +96,8 @@ const Navbar = () => {
                   <div className="p-5 bg-white border rounded shadow-sm">
                     <div className="flex items-center justify-between mb-4">
                       <div>
-                        <a
-                          href="/"
+                        <Link
+                          to="/"
                           aria-label="Company"
                           title="Company"
                           className="inline-flex items-center"
@@ -107,7 +106,7 @@ const Navbar = () => {
                             <img className="w-[50px]" src={logo} alt="" />
                           </span>
                           <h2 className="text-xl font-bold">List Maker</h2>
-                        </a>
+                        </Link>
                       </div>
                       <div>
                         <button

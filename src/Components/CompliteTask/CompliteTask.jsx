@@ -16,9 +16,9 @@ const CompliteTask = () => {
   } = useQuery({
     queryKey: ["complite"],
     queryFn: () =>
-      fetch(`http://localhost:5000/complite/?email=${user.email}`).then((res) =>
-        res.json()
-      ),
+      fetch(
+        `https://list-maker-server.vercel.app/complite/?email=${user.email}`
+      ).then((res) => res.json()),
   });
 
   //
@@ -27,7 +27,7 @@ const CompliteTask = () => {
   const deleteHander = (id) => {
     alert(id);
 
-    fetch(`http://localhost:5000/task/${id}`, {
+    fetch(`https://list-maker-server.vercel.app/task/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -44,6 +44,12 @@ const CompliteTask = () => {
     <div className=" container mx-auto mt-5">
       <h1 className="text-2xl font-bold my-3">Your Task</h1>
 
+      {Tasks.length === 0 && (
+        <div className="flex justify-center text-red-700 text-xl">
+          <p>Have Not Complite Task Task</p>
+        </div>
+      )}
+
       {Tasks?.map((task) => (
         <div key={task._id} className="">
           <div className="shadow-xl bg-violet-700 text-white shadow-green-200 hover:border-0 hover:duration-500 duration-500 hover:shadow-2xl bg-base-100 rounded p-4 my-10">
@@ -53,13 +59,6 @@ const CompliteTask = () => {
               </div>
 
               <div className="flex justify-center items-center">
-                <Link
-                  title="Press to Update Task"
-                  className="btn  hover:shadow-xl  p-2 rounded mr-2"
-                >
-                  <FaUpload />
-                </Link>
-
                 <Link
                   onClick={() => deleteHander(task?._id)}
                   title="Press to Delete"

@@ -70,7 +70,7 @@ const AddTask = () => {
       complite: false,
     };
 
-    fetch("http://localhost:5000/addtask", {
+    fetch("https://list-maker-server.vercel.app/addtask", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
